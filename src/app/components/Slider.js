@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {PropTypes} from 'prop-types';
-import axios from 'axios';
 import {fetchImages} from './../api'
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
@@ -12,6 +11,14 @@ class Slider extends Component {
         current: 0,
         lengthImages: 0,
         loaded: false
+    }
+
+    static propTypes = {
+        images: PropTypes.shape({
+            id: PropTypes.string,
+            urls: PropTypes.array,
+            width: PropTypes.number,
+        })
     }
 
     componentDidMount() {
@@ -60,12 +67,13 @@ class Slider extends Component {
 
     render() {
         const {images, loaded} = this.state
+        const thumb = <div styles={{width: '100%', height: '480px', background: 'black'}}></div>
 
         return (
             <div className="d-flex flex-column">
                 <div className="slider-cont">
                     <div className="d-flex flex-row flex-nowrap">
-                        {!loaded ? <div styles={{width: '100%', height: '480px', background: 'black'}}></div> : images.map((image, index) => this.renderImage(image, index)
+                        {!loaded ? thumb : images.map((image, index) => this.renderImage(image, index)
                         )}
                     </div>
                     <div className="controls">
